@@ -28,13 +28,13 @@ public class Separar_RGB implements PlugIn {
     
     int largura = implus.getWidth();
     int altura = implus.getHeight();
-    
-    // objeto que manipula os pixels.
-    ImageProcessor ipOriginal = implus.getProcessor();
    
     ImagePlus impR = IJ.createImage(implus.getTitle() + " (Red)", "8-bit", largura, altura, 1);
     ImagePlus impG = IJ.createImage(implus.getTitle() + " (Green)", "8-bit", largura, altura, 1);
     ImagePlus impB = IJ.createImage(implus.getTitle() + " (Blue)", "8-bit", largura, altura, 1);
+
+    // objeto que manipula os pixels
+    ImageProcessor ipOriginal = implus.getProcessor();
 
     // processors das novas imagens para manipular
     ImageProcessor ipR = impR.getProcessor();
@@ -50,6 +50,7 @@ public class Separar_RGB implements PlugIn {
             // extrai bits referentes ao vermelho que começa no bit 16
             // antes: bits AAAAAAAARRRRRRRRGGGGGGGGBBBBBBBB
             // depois de aplicar Bitwise >> 16: 0000000000000000AAAAAAAARRRRRRRR
+            // mascara 0xff transforma AAA em 000, assim obtendo apenas red
             // 16-23
             int r = (pixel >> 16) & 0xff; 
             

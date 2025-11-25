@@ -15,13 +15,11 @@ public class Mesclar_RGB implements PlugIn {
             return;
         }
 
-        // Pega os nomes de todas as janelas abertas para colocar na lista de escolha.
         String[] titulos = WindowManager.getImageTitles();
 
-        // Cria uma caixa de diálogo padrão do ImageJ.
+        // caixa de diálogo
         GenericDialog gd = new GenericDialog("Mesclar Canais RGB");
 
-        // O terceiro parâmetro define a seleção padrão (primeira, segunda e terceira janela).
         gd.addChoice("Canal Vermelho (R):", titulos, titulos[0]);
         gd.addChoice("Canal Verde (G):", titulos, titulos[1]);
         gd.addChoice("Canal Azul (B):", titulos, titulos[2]);
@@ -29,7 +27,7 @@ public class Mesclar_RGB implements PlugIn {
 
         if (gd.wasCanceled()) return;
 
-        // Recuperamos as imagens baseadas nas escolhas feitas nos menus dropdown.
+        // imagens baseadas nas escolhas
         ImagePlus imgR = WindowManager.getImage(gd.getNextChoice());
         ImagePlus imgG = WindowManager.getImage(gd.getNextChoice());
         ImagePlus imgB = WindowManager.getImage(gd.getNextChoice());
@@ -40,12 +38,12 @@ public class Mesclar_RGB implements PlugIn {
     }
 
     public boolean validarImagens(ImagePlus r, ImagePlus g, ImagePlus b) {
-        // Verifica se todas são 8-bit (escala de cinza/intensidade 0-255)
+        
         if (r.getType() != ImagePlus.GRAY8 || g.getType() != ImagePlus.GRAY8 || b.getType() != ImagePlus.GRAY8) {
             IJ.error("Erro", "Todas as imagens selecionadas devem ser 8-bits (escala de cinza).");
             return false;
         }
-        // Verifica se todas têm exatamente a mesma largura e altura
+
         if (r.getWidth() != g.getWidth() || r.getWidth() != b.getWidth() ||
             r.getHeight() != g.getHeight() || r.getHeight() != b.getHeight()) {
             IJ.error("Erro", "As imagens devem ter as mesmas dimensões.");
@@ -55,21 +53,21 @@ public class Mesclar_RGB implements PlugIn {
     }
 
     public void construirImagemRGB(ImagePlus r, ImagePlus g, ImagePlus b) {
-        int w = r.getWidth();
-        int h = r.getHeight();
+        int largura = r.getWidth();
+        int altura = r.getHeight();
 
-        // Pega os processadores para ler os pixels das imagens de entrada
+        // processors para ler os pixels das imagens de entrada
         ImageProcessor ipR = r.getProcessor();
         ImageProcessor ipG = g.getProcessor();
         ImageProcessor ipB = b.getProcessor();
 
-        // Cria uma NOVA imagem vazia, já configurada para ser RGB (colorida)
-        ImagePlus imgFinal = IJ.createImage("Resultado RGB", "RGB", w, h, 1);
+        // cria nova imagem configurada para ser RGB
+        ImagePlus imgFinal = IJ.createImage("Resultado RGB", "RGB", largura, altura, 1);
         ImageProcessor ipFinal = imgFinal.getProcessor();
 
-        for (int x = 0; x < w; x++) {
-            for (int y = 0; y < h; y++) {
-                // lê a intensidade de cada canal naquela posição
+        for (int x = 0; x < largura; x++) {
+            for (int y = 0; y < altura; y++) {
+                // lê a intensidade de cada pixel naquela posição da matriz (de 0-255)
                 int valR = ipR.get(x, y);
                 int valG = ipG.get(x, y);
                 int valB = ipB.get(x, y);
