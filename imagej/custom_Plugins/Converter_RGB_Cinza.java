@@ -17,7 +17,7 @@ public class Converter_RGB_Cinza implements PlugIn {
 
         ImagePlus imgAtual = IJ.getImage();
         if (imgAtual.getType() != ImagePlus.COLOR_RGB) {
-            IJ.error("Erro", "Por favor, selecione uma imagem RGB.");
+            IJ.error("Erro", "Selecione uma imagem RGB.");
             return;
         }
 
@@ -78,6 +78,8 @@ public class Converter_RGB_Cinza implements PlugIn {
                 int g = (pixel >> 8) & 0xff;
                 int b = pixel & 0xff;
 
+                //valor que representa a intensidade luminosa 
+                // que o pixel terá na imagem final em Escala de Cinza
                 int cinza;
                 if (media) {
                     cinza = (r + g + b) / 3;
@@ -98,7 +100,7 @@ public class Converter_RGB_Cinza implements PlugIn {
 
         imagePlusDestino.show();
         if (!criarNova) {
-            imp.updateAndDraw(); //atualização da tela se alterou a original
+            imp.updateAndDraw(); 
         }
     }
 }
