@@ -13,7 +13,7 @@ Antes de começar, você precisará ter os seguintes itens instalados:
 
 1. **Clone o repositório:**
 ```bash
-git clone https://github.com/Kevin-Perdomo/Processamento_De_Imagens.git
+git clone https://github.com/jonmonteiro/Image-Processing.git
 cd Processamento_De_Imagens
 Instale o Apache Ant:
 
